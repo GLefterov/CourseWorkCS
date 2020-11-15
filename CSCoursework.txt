@@ -1,0 +1,258 @@
+
+
+      // get first number
+      INP R0, 7
+      CMP R0, #13
+      BGT invalidinput
+      CMP R0, #0
+      BLT invalidinput
+      
+
+
+      // get second number
+      INP R1, 7
+      CMP R1, #13
+      BGT invalidinput
+
+
+      // do comparison and branch (jump) to handler
+      CMP R0, R1
+      BEQ equal 
+      BLT lower
+      BGT greater
+
+      // Point to the correct output string below
+greater:
+      // handle greater than case
+MOV R7, #cardletters
+MOV R8, #cardletters
+ADD R7, R7, R0
+ADD R8, R8, R1
+LDR R5, [R0]
+LDR R6, [R1] 
+      MOV R11, #greaterstring
+      OUT R5, 7
+      OUT R11, 8
+      OUT R6, 7
+      HALT
+lower:
+      // handle lower than case
+MOV R7, #cardletters
+MOV R8, #cardletters
+ADD R7, R7, R0
+ADD R8, R8, R1
+LDR R5, [R0]
+LDR R6, [R1] 
+      MOV R10, #lowerstring
+      OUT R5, 7
+      OUT R10, 8
+      OUT R6, 7
+      HALT
+equal:
+      // handle when equal 
+MOV R7, #cardletters
+MOV R8, #cardletters
+ADD R7, R7, R0
+ADD R8, R8, R1
+LDR R5, [R0]
+LDR R6, [R1] 
+      MOV R12, #equalstring
+      OUT R5, 7
+      OUT R12, 8
+      OUT R6, 7
+      HALT
+out:
+      // print to the output device
+      halt //terminate program
+      // DATA
+      // Make sure strings terminate with 0x00
+greaterstring:
+      // define the greater than output string here
+      DAT 0x68207369
+      DAT 0x65686769
+      DAT 0x68742072
+      DAT 0x6e61
+      DAT 0x00
+lowerstring:
+      // define the less than output string here
+      DAT 0x6c207369
+      DAT 0x7265776f
+      DAT 0x61687420
+      DAT 0xa6e
+      DAT 0x00
+equalstring:
+      // define the equals than output string here
+DAT 0x65207369 
+DAT 0x6c617571 
+DAT 0x6f7420
+      DAT 0x00
+
+cardletters:
+      // this is an array of all of the letters corresponding to the card values
+      dat 0x00// this should never be referenced
+      dat 0x41 // A
+      dat 0x32 // 2
+      dat 0x33 // 3
+      dat 0x34 // 4
+      dat 0x35 // 5
+      dat 0x36 // 6
+      dat 0x37 // 7
+      dat 0x38 // 8
+      dat 0x39 // 9
+      dat 0x3031 // 10
+      dat 0x4A // J
+      dat 0x51 // Q
+      dat 0x4B // K
+space:
+      dat 0x20 // space char
+      // minimum and maximum card values
+min:  dat 1 // min value of card, A
+max:  dat 13 // max value of card, K
+
+invalidinput:
+MOV R12, #invalidinputstring
+OUT R12, 8
+HALT 
+
+invalidinputstring: 
+DAT 0x61766e49
+DAT 0x2064696c
+DAT 0x64726163
+DAT 0x6f727020
+DAT 0x65646976
+DAT 0x2164
+DAT 0x00
+
+
+
+
+
+
+
+
+
+
+      // get first number
+      INP R0, 7
+      CMP R0, #13
+      BGT invalidinput
+      CMP R0, #0
+      BLT invalidinput 
+
+      // get second number
+      INP R1, 7
+      CMP R1, #13
+      BGT invalidinput
+      CMP R1, #0
+      BLT invalidinput
+
+      //comparison
+      CMP R0, R1
+
+      //branches
+      BEQ equal 
+      BLT lower
+      BGT greater
+
+
+
+      // Point to the correct output string below
+greater:
+      //greater than case
+      MOV R7, #cardletters
+      MOV R8, #cardletters
+      ADD R7, R7, R0
+      ADD R8, R8, R1
+      LDR R5, [R7]
+      LDR R6, [R8]
+      MOV R11, #greaterstring
+      OUT R5, 7
+      OUT R11, 8
+      OUT R6, 7
+      HALT
+lower:
+      //lower than case
+      MOV R7, #cardletters
+      MOV R8, #cardletters
+      ADD R7, R7, R0
+      ADD R8, R8, R1
+      LDR R5, [R7]
+      LDR R6, [R8]
+      MOV R10, #lowerstring
+      OUT R5, 7
+      OUT R10, 8
+      OUT R6, 7
+      HALT
+equal:
+      //when equal 
+      MOV R7, #cardletters
+      MOV R8, #cardletters
+      ADD R7, R7, R0
+      ADD R8, R8, R1
+      LDR R5, [R7]
+      LDR R6, [R8]
+      MOV R12, #equalstring
+      OUT R5, 7
+      OUT R12, 8
+      OUT R6, 7
+      HALT
+
+greaterstring:
+      // definition of the string if its greater
+      DAT 0x68207369
+      DAT 0x65686769
+      DAT 0x68742072
+      DAT 0x6e61
+      DAT 0x00
+lowerstring:
+      // definition of the string if its less than the other number
+      DAT 0x6c207369
+      DAT 0x7265776f
+      DAT 0x61687420
+      DAT 0xa6e
+      DAT 0x00
+equalstring:
+      // definition of the string if they're both equal
+      DAT 0x65207369 
+      DAT 0x6c617571 
+      DAT 0x6f7420
+      DAT 0x00
+cardletters:
+      //an array of all of the letters corresponding to the card values
+      dat 0x00 // it is never referenced
+      dat 0x41 // A
+      dat 0x32 // 2
+      dat 0x33 // 3
+      dat 0x34 // 4
+      dat 0x35 // 5
+      dat 0x36 // 6
+      dat 0x37 // 7
+      dat 0x38 // 8
+      dat 0x39 // 9
+      dat 0x3031 // 10
+      dat 0x4A // J
+      dat 0x51 // Q
+      dat 0x4B // K
+space:
+      dat 0x20 // space char
+      // minimum and maximum card values
+min:  dat 1 // min value of card, A
+max:  dat 13 // max value of card, K
+
+invalidinput:
+//code that outputs if the input is invalid
+      MOV R12, #invalidinputstring
+      OUT R12, 8
+      HALT 
+
+invalidinputstring: 
+//definition of the invalid input message string
+      DAT 0x61766e49
+      DAT 0x2064696c
+      DAT 0x64726163
+      DAT 0x6f727020
+      DAT 0x65646976
+      DAT 0x2164
+      DAT 0x00
+
+
