@@ -1,0 +1,124 @@
+      // get first number
+      INP R0, 7
+      CMP R0, #13
+      BGT invalidinput
+      CMP R0, #0
+      BLT invalidinput 
+
+      // get second number
+      INP R1, 7
+      CMP R1, #13
+      BGT invalidinput
+      CMP R1, #0
+      BLT invalidinput
+
+      //comparison
+      CMP R0, R1
+
+      //branches after the comparison
+      BEQ equal 
+      BLT lower
+      BGT greater
+
+
+
+      // Point to the correct output string below
+greater:
+      //greater than case
+      MOV R7, #cardletters //move the array into R7
+      MOV R8, #cardletters //move the array into R8
+      ADD R7, R7, R0   //we're getting the index we should access with R7, by adding it to itself and R0(the first number)
+      ADD R8, R8, R1   //we're getting the index we should access with R8, by adding it to itself and R1(the second number)
+      LDR R5, [R7]    //a chunk of data(a character in our case) into R5, R7 contains the index number we access.
+      LDR R6, [R8]    //a chunk of data(a character in our case) into R6, R8 contains the index number we access.
+      MOV R11, #greaterstring   //we move the output string to R12
+      OUT R5, 7  //output the first number
+      OUT R11, 8 //output the string
+      OUT R6, 7 //output the second number
+      HALT  //stop the execution of the program
+lower:
+      //lower than case
+      MOV R7, #cardletters //move the array into R7
+      MOV R8, #cardletters //move the array into R8
+      ADD R7, R7, R0 //we're getting the index we should access with R7, by adding it to itself and R0(the first number)
+      ADD R8, R8, R1 //we're getting the index we should access with R8, by adding it to itself and R1(the second number)
+      LDR R5, [R7] //a chunk of data(a character in our case) into R5, R7 contains the index number we access.
+      LDR R6, [R8] //a chunk of data(a character in our case) into R6, R8 contains the index number we access.
+      MOV R10, #lowerstring //we move the output string to R12
+      OUT R5, 7  //output the first number
+      OUT R10, 8  //output the string
+      OUT R6, 7 //output the second number
+      HALT //stop the execution of the program
+equal:
+      //when equal 
+      MOV R7, #cardletters //move the array into R7
+      MOV R8, #cardletters //move the array into R8
+      ADD R7, R7, R0   //we're getting the index we should access with R7, by adding it to itself and R0(the first number)
+      ADD R8, R8, R1   //we're getting the index we should access with R8, by adding it to itself and R1(the second number)
+      LDR R5, [R7]     //a chunk of data(a character in our case) into R5, R7 contains the index number we access.
+      LDR R6, [R8]     //a chunk of data(a character in our case) into R6, R8 contains the index number we access.
+      MOV R12, #equalstring  //we move the output string to R12
+      OUT R5, 7  //output the first number
+      OUT R12, 8  //output the string
+      OUT R6, 7 //output the second number
+      HALT //stop the execution of the program
+
+greaterstring:
+      // definition of the string if its greater
+      DAT 0x68207369
+      DAT 0x65686769
+      DAT 0x68742072
+      DAT 0x6e61
+      DAT 0x00
+lowerstring:
+      // definition of the string if its less than the other number
+      DAT 0x6c207369
+      DAT 0x7265776f
+      DAT 0x61687420
+      DAT 0xa6e
+      DAT 0x00
+equalstring:
+      // definition of the string if they're both equal
+      DAT 0x65207369 
+      DAT 0x6c617571 
+      DAT 0x6f7420
+      DAT 0x00
+cardletters:
+      //an array of all of the letters corresponding to the card values
+      dat 0x00 // it is never referenced
+      dat 0x41 // A
+      dat 0x32 // 2
+      dat 0x33 // 3
+      dat 0x34 // 4
+      dat 0x35 // 5
+      dat 0x36 // 6
+      dat 0x37 // 7
+      dat 0x38 // 8
+      dat 0x39 // 9
+      dat 0x3031 // 10
+      dat 0x4A // J
+      dat 0x51 // Q
+      dat 0x4B // K
+space:
+      dat 0x20 // space char
+      // minimum and maximum card values
+min:  dat 1 // min value of card, A
+max:  dat 13 // max value of card, K
+
+invalidinput:
+//code that outputs if the input is invalid
+      MOV R12, #invalidinputstring
+      OUT R12, 8
+      HALT 
+
+invalidinputstring: 
+//definition of the invalid input message string
+      DAT 0x61766e49
+      DAT 0x2064696c
+      DAT 0x64726163
+      DAT 0x6f727020
+      DAT 0x65646976
+      DAT 0x2164
+      DAT 0x00
+
+
